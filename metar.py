@@ -41,7 +41,7 @@ COLOR_HIGH_WINDS 	= (255,255,0) 		# Yellow
 
 # ----- Blink/Fade functionality for Wind and Lightning -----
 # Do you want the METARMap to be static to just show flight conditions, or do you also want blinking/fading based on current wind conditions
-ACTIVATE_WINDCONDITION_ANIMATION = False	# Set this to False for Static or True for animated wind conditions
+ACTIVATE_WINDCONDITION_ANIMATION = True 	# Set this to False for Static or True for animated wind conditions
 #Do you want the Map to Flash white for lightning in the area
 ACTIVATE_LIGHTNING_ANIMATION = False		# Set this to False for Static or True for animated Lightning
 # Fade instead of blink
@@ -49,7 +49,7 @@ FADE_INSTEAD_OF_BLINK	= True			# Set to False if you want blinking
 # Blinking Windspeed Threshold
 WIND_BLINK_THRESHOLD	= 15			# Knots of windspeed to blink/fade
 HIGH_WINDS_THRESHOLD	= 25			# Knots of windspeed to trigger Yellow LED indicating very High Winds, set to -1 if you don't want to use this
-ALWAYS_BLINK_FOR_GUSTS	= False			# Always animate for Gusts (regardless of speeds)
+ALWAYS_BLINK_FOR_GUSTS	= True			# Always animate for Gusts (regardless of speeds)
 # Blinking Speed in seconds
 BLINK_SPEED		= 1.0			# Float in seconds, e.g. 0.5 for half a second
 # Total blinking time in seconds.
@@ -57,20 +57,20 @@ BLINK_SPEED		= 1.0			# Float in seconds, e.g. 0.5 for half a second
 BLINK_TOTALTIME_SECONDS	= 300
 
 # ----- Daytime dimming of LEDs based on time of day or Sunset/Sunrise -----
-ACTIVATE_DAYTIME_DIMMING = False		# Set to True if you want to dim the map after a certain time of day
+ACTIVATE_DAYTIME_DIMMING = True		# Set to True if you want to dim the map after a certain time of day
 BRIGHT_TIME_START	= datetime.time(7,0)	# Time of day to run at LED_BRIGHTNESS in hours and minutes
 DIM_TIME_START		= datetime.time(19,0)	# Time of day to run at LED_BRIGHTNESS_DIM in hours and minutes
 LED_BRIGHTNESS_DIM	= 0.1			# Float from 0.0 (min) to 1.0 (max)
 
 USE_SUNRISE_SUNSET 	= True			# Set to True if instead of fixed times for bright/dimming, you want to use local sunrise/sunset
-LOCATION 		= "Seattle"		# Nearby city for Sunset/Sunrise timing, refer to https://astral.readthedocs.io/en/latest/#cities for list of cities supported
+LOCATION 		= "Chicago"		# Nearby city for Sunset/Sunrise timing, refer to https://astral.readthedocs.io/en/latest/#cities for list of cities supported
 
 # ----- External Display support -----
 ACTIVATE_EXTERNAL_METAR_DISPLAY = False		# Set to True if you want to display METAR conditions to a small external display
 DISPLAY_ROTATION_SPEED = 5.0			# Float in seconds, e.g 2.0 for two seconds
 
 # ----- Show a set of Legend LEDS at the end -----
-SHOW_LEGEND = True			# Set to true if you want to have a set of LEDs at the end show the legend
+SHOW_LEGEND = False		# Set to true if you want to have a set of LEDs at the end show the legend
 # You'll need to add 7 LEDs at the end of your string of LEDs
 # If you want to offset the legend LEDs from the end of the last airport from the airports file,
 # then change this offset variable by the number of LEDs to skip before the LED that starts the legend
@@ -129,11 +129,11 @@ print("External Display:" + str(ACTIVATE_EXTERNAL_METAR_DISPLAY))
 pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, brightness = LED_BRIGHTNESS_DIM if (ACTIVATE_DAYTIME_DIMMING and bright == False) else LED_BRIGHTNESS, pixel_order = LED_ORDER, auto_write = False)
 
 # Read the airports file to retrieve list of airports and use as order for LEDs
-with open("/home/pi/airports") as f:
+with open("./airports") as f:
 	airports = f.readlines()
 airports = [x.strip() for x in airports]
 try:
-	with open("/home/pi/displayairports") as f2:
+	with open("./displayairports") as f2:
 		displayairports = f2.readlines()
 	displayairports = [x.strip() for x in displayairports]
 	print("Using subset airports for LED display")
